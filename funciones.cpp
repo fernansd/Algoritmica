@@ -34,16 +34,16 @@ Matriz generarMatriz(int tam) {
 
 Matriz matrizVacia(int fil, int col) {
 	Matriz m;
-	Fila f;
-	
-	// Generamos una fila
-	for (int i = 0; i < col; i++) {
-		f.push_back(0.0);
-	}
 	
 	// Creamos el número de filas necesarias
 	for (int i = 0; i < fil; i++) {
+		Fila f;
+		// Generamos una fila
+		for (int j = 0; j < col; j++) {
+			f.push_back(0.0);
+		}
 		m.push_back(f);
+	
 	}
 	
 	return m;
@@ -80,7 +80,7 @@ Matriz productoMatrices(Matriz &m1, Matriz &m2) {
 
 int determinanteMatriz(Matriz &m) {
 
-	int tam = (int)m.size();
+	int tam = m.size();
     if (tam == 2)
     {
         return (m[0][0]*m[1][1] - m[0][1]*m[1][0]);

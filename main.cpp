@@ -7,6 +7,8 @@ using std::endl;
 
 int main () {
 	srand(time(NULL));
+	Clock reloj;
+	reloj.start();
 
 	Matriz m1 = generarMatriz(3);
 	Matriz m2 = generarMatriz(3);
@@ -38,6 +40,38 @@ int main () {
 
 	cout << "Inversa m2:" << endl;
 	imprimirMatriz(inv2);
+
+	reloj.stop();
+	cout << "Tiempo pasado: " << reloj.elapsed() << endl;
+
+	int n = 2000000;
+	reloj.restart();
+	for (int i = 0; i < n; i++) {
+		m1 = generarMatriz(3);
+		m2 = generarMatriz(3);
+
+		cout << "Matriz 1:" << endl;
+		imprimirMatriz(m1);
+		cout << endl;
+
+		cout << "Matriz 2:" << endl;
+		imprimirMatriz(m2);
+		cout << endl;
+
+		producto = matrizVacia(3,3);
+		
+		producto = productoMatrices(m1, m2);
+
+		double det1 = determinanteMatriz(m1);
+
+		double det2 = determinanteMatriz(m2);
+
+		inv1 = invertirMatriz(m1);
+		inv2 = invertirMatriz(m2);
+	}
+	reloj.stop();
+
+	cout << "Tiempo pasado para n=" << n << " :  " << reloj.elapsed() << endl;
 
 
 return 0;
