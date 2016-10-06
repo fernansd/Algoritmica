@@ -14,6 +14,10 @@ void imprimirMatriz(Matriz &m);
 
 Matriz productoMatrices(Matriz &m1, Matriz &m2);
 
-double generaFibonacci(int n);
+int determinanteMatriz(Matriz &m);
+
+Matriz invertirMatriz(Matriz &m);
+
+double generarFibonacci(int n);
 
 #endif

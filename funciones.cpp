@@ -21,7 +21,7 @@ Matriz generarMatriz(int tam) {
 			double elem;
 			
 			elem = 10 - rand() % 21; // Genera parte entera
-			elem = elem + 1 / (rand() % 10000); // Genera parte decimal
+			elem = elem + (1 / rand() % 10000); // Genera parte decimal
 		
 			fila.push_back(elem);
 		}
@@ -54,7 +54,7 @@ void imprimirMatriz(Matriz &m) {
 		
 		for (size_t j = 0; j < m[i].size(); j++) {
 			
-			cout << std::setw(3) << m[i][j] << " ";
+			cout << std::setw(10) << m[i][j] << " ";
 		}
 		cout << endl;
 	}
@@ -87,11 +87,10 @@ int determinanteMatriz(Matriz &m) {
     }
     else
     {
-        int actual = 0;
         int k = 0;
         double num = 0;
         int multiplicador;
-		Matriz adj = matrizVacia(tam, tam);
+		Matriz adj = matrizVacia(tam-1, tam-1);
  
         for (int l = 0; l < tam; l++) // Desarrollo por filas
         {
@@ -119,8 +118,36 @@ int determinanteMatriz(Matriz &m) {
     }
 }
 
+Matriz invertirMatriz(Matriz &m) {
+	Matriz inversa = m;
+	int n = m.size();
 
-double generaFibonacci(int n) {
+	for (int i = 0; i < n; i++) {        //Pivotisation
+        for (int k = i + 1; k < n; k++) {
+
+            if (inversa[i][i] < inversa[k][i]) {
+                for (int j = 0; j <= n; j++) {
+
+                    double temp = inversa[i][j];
+                    inversa[i][j] = inversa[k][j];
+                    inversa[k][j] = temp;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < n-1; i++)            //loop to perform the gauss elimination
+        for (int k = i + 1; k < n; k++)
+            {
+                double t = inversa[k][i] / inversa[i][i];
+                for (int j = 0; j <= n; j++) {
+                    inversa[k][j] = inversa[k][j] - t * inversa[i][j];    //make the elements below the pivot elements equal to zero or elimnate the variables
+                }
+            }
+	return inversa;
+}
+
+double generarFibonacci(int n) {
 
 	return 2.0;
 }
