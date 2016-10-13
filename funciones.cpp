@@ -20,7 +20,7 @@ Matriz generarMatriz(int tam) {
 		
 			double elem;
 			
-			elem = 10 - rand() % 21; // Genera parte entera
+			elem = 9 - rand() % 19; // Genera parte entera entre -9 y 9
 			elem = elem + (1 / rand() % 10000); // Genera parte decimal
 		
 			fila.push_back(elem);
@@ -33,18 +33,17 @@ Matriz generarMatriz(int tam) {
 }
 
 Matriz matrizVacia(int fil, int col) {
-	Matriz m;
 	
+	// Crea la matriz
+	Matriz m(fil, Fila(col, 0.0));
+	/*
 	// Creamos el número de filas necesarias
 	for (int i = 0; i < fil; i++) {
-		Fila f;
-		// Generamos una fila
-		for (int j = 0; j < col; j++) {
-			f.push_back(0.0);
-		}
+		
 		m.push_back(f);
 	
 	}
+	*/
 	
 	return m;
 }
@@ -78,6 +77,23 @@ Matriz productoMatrices(Matriz &m1, Matriz &m2) {
 	return producto;
 }
 
+int generarFibonacci(int n) {
+	if (n == 0)
+		return 0;
+		
+	if (n == 1)
+		return 1;
+		
+	return generarFibonacci(n-1) + generarFibonacci(n-2);
+}
+
+
+
+
+
+//
+// Otras operaciones matriciales
+//
 int determinanteMatriz(Matriz &m) {
 
 	int tam = m.size();
@@ -119,35 +135,47 @@ int determinanteMatriz(Matriz &m) {
 }
 
 Matriz invertirMatriz(Matriz &m) {
-	Matriz inversa = m;
+	
 	int n = m.size();
+	Matriz inversa = m;
+	Fila fila_vacia(n, 0.0);
+	
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			inversa[i].push_back(0.0);
+		}
+	}
 
-	for (int i = 0; i < n; i++) {        //Pivotisation
-        for (int k = i + 1; k < n; k++) {
-
-            if (inversa[i][i] < inversa[k][i]) {
-                for (int j = 0; j <= n; j++) {
-
-                    double temp = inversa[i][j];
-                    inversa[i][j] = inversa[k][j];
-                    inversa[k][j] = temp;
-                }
-            }
-        }
-    }
-
-    for (int i = 0; i < n-1; i++)            //loop to perform the gauss elimination
-        for (int k = i + 1; k < n; k++)
-            {
-                double t = inversa[k][i] / inversa[i][i];
-                for (int j = 0; j <= n; j++) {
-                    inversa[k][j] = inversa[k][j] - t * inversa[i][j];    //make the elements below the pivot elements equal to zero or elimnate the variables
-                }
-            }
+	for(int i = 0; i < n; i++)
+	{
+		for(int j = n; j < 2*n; j++)
+		{
+			if(i == j-n)
+				inversa[i][j]=1;
+			else
+				inversa[i][j]=0;
+		}
+	}
+	for(int i = 0; i < n; i++)
+	{
+		double t = inversa[i][i];
+		for(int j = i; j < 2*n; j++)
+			inversa[i][j] = inversa[i][j]/t;
+		
+		for(int j = 0; j < n; j++)
+		{
+			if(i != j)
+			{
+				t = inversa[j][i];
+				for(int k = 0; k < 2*n; k++)
+					inversa[j][k] = inversa[j][k] - t*inversa[i][k];
+			}
+		}
+	}
+	
+	for (int i = 0; i < n; i++) {
+		inversa[i].erase(inversa[i].begin(), inversa[i].begin()+n);
+	}
+	
 	return inversa;
-}
-
-double generarFibonacci(int n) {
-
-	return 2.0;
 }
