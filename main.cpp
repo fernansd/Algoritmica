@@ -8,6 +8,7 @@
 using std::cout;
 using std::cin;
 using std::endl;
+using std::string;
 
 int main () {
 	srand(time(NULL));
@@ -17,8 +18,8 @@ int main () {
 	//
 	
 	// Parámetros automatizados
-	int mat_min = 100, mat_max = 500, mat_paso = 10;
-	int fib_min = 20, fib_max = 45, fib_paso = 1;
+	int mat_min = 100, mat_max = 400, mat_paso = 10;
+	int fib_min = 20, fib_max = 40, fib_paso = 1;
 	
 	/* !!! Descomentar para obtener los parámetros a mano y comentar abajo
 	string aux;
@@ -116,8 +117,8 @@ int main () {
 			}
 		}
 	}
-	cout << "acabados sumatorios" << endl;
 	
+	// Crea matrices para hacer Cramer
 	std::vector<long double> coef_m3(4);
 	std::vector<long double> coef_m4(5);
 	Matriz m3 = matrizVacia(4,4);
@@ -143,7 +144,7 @@ int main () {
 			aux_m4[j] = m4[j][i];
 		}
 		
-		coef_m4[i] = determinanteMatriz(m4) / det_m4;
+		coef_m4[i] = (double)determinanteMatriz(m4) / det_m4;
 		
 		// Restaura matriz a su estado anterior
 		for (size_t j = 0; j < coef_m4.size(); j++) {
@@ -155,7 +156,7 @@ int main () {
 				aux_m3[j] = m3[j][i];
 			}
 			
-			coef_m3[i] = determinanteMatriz(m3) / det_m3;
+			coef_m3[i] = (double)determinanteMatriz(m3) / det_m3;
 			
 			// Restaura matriz a su estado anterior
 			for (size_t j = 0; j < coef_m3.size(); j++) {
@@ -165,7 +166,7 @@ int main () {
 	}
 	
 	// Vuelca datos matrices a fichero
-	std::ofstream archivo("Datos.txt", std::ios::out | std::ios::app);
+	std::ofstream archivo("datos-mat.txt", std::ios::out /*| std::ios::app*/);
 	if (!archivo.is_open()) {
 		cout << "Error: No se pudo abrir el archivo de escritura" << endl;
 	}
@@ -182,6 +183,135 @@ int main () {
 	}
 	
 	archivo.close();
+	
+	// Sumatorios para fibonacci
+	long double sum_x1 = 0, sum_x2 = 0,
+				sum_y = 0, sum_xy = 0;
+	long double n_fib = tiempos_fib.size();
+	for (size_t i = 0; i < tiempos_fib.size(); i++) {
+		sum_x1 += tiempos_fib[i].real;
+		sum_x2 += pow(tiempos_fib[i].real, 2);
+		
+		sum_y += pow(tiempos_fib[i].tam, 2);
+		sum_xy += pow(tiempos_fib[i].tam, 2) * tiempos_fib[i].real;
+		
+	}
+	// Coeficientes de estimación de tiempos para fibonacci
+	long double fib_a0, fib_a1;
+	
+	// Matriz base para cramer
+	Matriz cramer_fib(2, Fila(2, 0.0));
+	cramer_fib[0][0] = n_fib;
+	cramer_fib[1][0] = sum_x1;
+	cramer_fib[0][1] = sum_x1;
+	cramer_fib[1][1] = sum_x2;
+	
+	long double det_fib = determinanteMatriz(cramer_fib);
+	cramer_fib[0][0] = sum_y;
+	cramer_fib[1][0] = sum_xy;
+	fib_a0 = (double)determinanteMatriz(cramer_fib) / det_fib;
+	
+	cramer_fib[0][0] = sum_y;
+	cramer_fib[1][0] = sum_xy;
+	cramer_fib[0][1] = sum_x1;
+	cramer_fib[1][1] = sum_x2;
+	fib_a1 = (double)determinanteMatriz(cramer_fib) / det_fib;
+	
+	// Genera tiempos estimados y guarda datos en fichero
+	std::ofstream archivo_fib("datos-fib.txt", std::ios::out /*| std::ios::app*/);
+	if (!archivo_fib.is_open()) {
+		cout << "Error: No se pudo abrir el archivo de escritura" << endl;
+	}
+	for (size_t i = 0; i < tiempos_fib.size(); i++) {
+		
+		tiempos_fib[i].est = fib_a0 + fib_a1*pow(2,tiempos_fib[i].tam);
+			
+		
+		archivo_fib << tiempos_fib[i].tam << " " << tiempos_fib[i].real << " "
+				<< tiempos_fib[i].est << endl;
+	}
+	
+	archivo_fib.close();
+	
+	// Calculo medias
+	long double media_mat_real = 0;
+	long double media_mat_est = 0;
+	for (size_t i = 0; i < tiempos_mat.size(); i++) {
+		media_mat_real += tiempos_mat[i].real;
+		media_mat_est += tiempos_mat[i].est;
+	}
+	media_mat_real = media_mat_real / tiempos_mat.size();
+	media_mat_est = media_mat_est / tiempos_mat.size();
+	
+	long double media_fib_real = 0;
+	long double media_fib_est = 0;
+	for (size_t i = 0; i < tiempos_mat.size(); i++) {
+		media_fib_real += tiempos_fib[i].real;
+		media_fib_est += tiempos_fib[i].est;
+	}
+	media_fib_real = media_fib_real / tiempos_fib.size();
+	media_fib_est = media_fib_est / tiempos_fib.size();
+	
+	// Calculo varianzas
+	long double var_mat_real = 0;
+	long double var_mat_est = 0;
+	for (size_t i = 0; i < tiempos_mat.size(); i++) {
+		var_mat_real += pow(tiempos_mat[i].real - media_mat_real, 2);
+		var_mat_est += pow(tiempos_mat[i].est - media_mat_est, 2);
+	}
+	var_mat_real = var_mat_real / tiempos_mat.size();
+	var_mat_est = var_mat_est / tiempos_mat.size();
+	
+	long double var_fib_real = 0;
+	long double var_fib_est = 0;
+	for (size_t i = 0; i < tiempos_fib.size(); i++) {
+		var_fib_real += pow(tiempos_fib[i].real - media_fib_real, 2);
+		var_fib_est += pow(tiempos_fib[i].est - media_fib_est, 2);
+	}
+	var_fib_real = var_fib_real / tiempos_fib.size();
+	var_fib_est = var_fib_est / tiempos_fib.size();
+	
+	// Coeficientes de determinación
+	cout << endl;
+	cout << "Coeficiente de determinación matrices: " << var_mat_est/var_mat_real << endl;
+	cout << "Coeficiente de terminación fibonacci: " << var_fib_est/var_fib_real << endl;
+	
+	
+	
+	// Permite al usuario pedir estimaciones pra ciertos valores de ejemplar
+	//
+	cout << endl << "Tiempos estimados personalizados:" << endl;
+	
+	string ejemplar;
+	
+	cout << "Producto matrices" << endl;
+	for(;;) {
+		cout << "Introduce tamaño de ejemplar(0 para terminar):";
+		cin >> ejemplar;
+		int n = std::stoi(ejemplar);
+		
+		if (n == 0) break;
+		
+		long double est = 0;
+		for (size_t j = 0; j < coef_m3.size(); j++) {
+			est += pow(n, j) * coef_m3[j];
+		}
+		cout << "Estimación: " << est << endl;
+	}
+	cout << "Fibonacci" << endl;
+	for(;;) {
+		cout << "Introduce tamaño de ejemplar(0 para terminar):";
+		cin >> ejemplar;
+		int n = std::stoi(ejemplar);
+		
+		if (n == 0) break;
+		
+		cout << "Estimación: " << fib_a0 + fib_a1*pow(2,n) 
+			 << endl;
+		
+		
+	}	
+	
 	//
 	// Fin del programa
 	//

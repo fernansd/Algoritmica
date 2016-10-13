@@ -21,7 +21,7 @@ Matriz generarMatriz(int tam) {
 			double elem;
 			
 			elem = 9 - rand() % 19; // Genera parte entera entre -9 y 9
-			elem = elem + (1 / rand() % 10000); // Genera parte decimal
+			elem = elem + (1.0 / (rand() % 10000)); // Genera parte decimal
 		
 			fila.push_back(elem);
 		}
@@ -104,7 +104,7 @@ int determinanteMatriz(Matriz &m) {
     else
     {
         int k = 0;
-        double num = 0;
+        long double num = 0;
         int multiplicador;
 		Matriz adj = matrizVacia(tam-1, tam-1);
  
