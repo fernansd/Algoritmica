@@ -110,10 +110,10 @@ int main () {
 	for (size_t i = 0; i < tiempos_mat.size(); i++) {
 		for (size_t j = 1; j < sums_x.size(); j++) {
 			
-			sums_x[j] += pow(tiempos_mat[i].real, j);
+			sums_x[j] += pow(tiempos_mat[i].tam, j);
 			
-			if ( j <= sums_xy.size()) {
-				sums_xy[j-1] += pow(tiempos_mat[i].real, j-1) * tiempos_mat[i].tam;
+			if ( j-1 <= sums_xy.size()) {
+				sums_xy[j-1] += pow(tiempos_mat[i].tam, j-1) * tiempos_mat[i].real;
 			}
 		}
 	}
@@ -189,11 +189,11 @@ int main () {
 				sum_y = 0, sum_xy = 0;
 	long double n_fib = tiempos_fib.size();
 	for (size_t i = 0; i < tiempos_fib.size(); i++) {
-		sum_x1 += tiempos_fib[i].real;
-		sum_x2 += pow(tiempos_fib[i].real, 2);
+		sum_x1 += tiempos_fib[i].tam;
+		sum_x2 += pow(tiempos_fib[i].tam, 2);
 		
-		sum_y += pow(tiempos_fib[i].tam, 2);
-		sum_xy += pow(tiempos_fib[i].tam, 2) * tiempos_fib[i].real;
+		sum_y += pow(tiempos_fib[i].real, 2);
+		sum_xy += pow(tiempos_fib[i].real, 2) * tiempos_fib[i].tam;
 		
 	}
 	// Coeficientes de estimación de tiempos para fibonacci

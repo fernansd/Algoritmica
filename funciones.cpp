@@ -132,7 +132,7 @@ long double determinanteMatriz(Matriz &m) {
         }
         return num;
     }*/
-    int n = m.size();
+    int n = m[0].size();
     long double factor;
     Matriz a = m;
     for (int k = 0; k < n - 1; k++) {
