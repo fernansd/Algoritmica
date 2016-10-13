@@ -23,7 +23,7 @@ Matriz productoMatrices(Matriz &m1, Matriz &m2);
 int generarFibonacci(int n);
 
 // Otras operaciones matriciales
-int determinanteMatriz(Matriz &m);
+long double determinanteMatriz(Matriz &m);
 Matriz invertirMatriz(Matriz &m);
 
 

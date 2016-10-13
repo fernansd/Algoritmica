@@ -94,9 +94,9 @@ int generarFibonacci(int n) {
 //
 // Otras operaciones matriciales
 //
-int determinanteMatriz(Matriz &m) {
+long double determinanteMatriz(Matriz &m) {
 
-	int tam = m.size();
+	/*int tam = m.size();
     if (tam == 2)
     {
         return (m[0][0]*m[1][1] - m[0][1]*m[1][0]);
@@ -131,7 +131,39 @@ int determinanteMatriz(Matriz &m) {
             num += (m[l][0]*determinanteMatriz(adj)*multiplicador);
         }
         return num;
+    }*/
+    int n = m.size();
+    long double factor;
+    Matriz a = m;
+    for (int k = 0; k < n - 1; k++) {
+     
+        for (int i = k+1; i < n;  i++) {
+
+            factor = a[i][k]/a[k][k];
+
+            for (int j = k+1; j < n; j++) {
+
+                a[i][j] = a[i][j] - factor * a[k][j];
+
+            }
+   
+
+        }
+
     }
+
+	// Cálculo del determinante
+
+    long double determ = 1.;
+
+    for (int i = 0; i < n; i++) {
+
+        determ = determ * a[i][i];
+
+    }
+    
+    return determ;
+
 }
 
 Matriz invertirMatriz(Matriz &m) {

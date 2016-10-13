@@ -140,26 +140,26 @@ int main () {
 	std::vector<long double> aux_m4(m4.size());
 	for (size_t i = 0; i < coef_m4.size(); i++) {
 		
-		for (size_t j = 0; j < coef_m4.size(); j++) {
+		for (size_t j = 0; j < m4.size(); j++) {
 			aux_m4[j] = m4[j][i];
 		}
 		
 		coef_m4[i] = (double)determinanteMatriz(m4) / det_m4;
 		
 		// Restaura matriz a su estado anterior
-		for (size_t j = 0; j < coef_m4.size(); j++) {
+		for (size_t j = 0; j < m4.size(); j++) {
 			m4[j][i] = aux_m4[j];
 		}
 	
 		if (i < coef_m3.size()) {
-			for (size_t j = 0; j < coef_m3.size(); j++) {
+			for (size_t j = 0; j < m3.size(); j++) {
 				aux_m3[j] = m3[j][i];
 			}
 			
 			coef_m3[i] = (double)determinanteMatriz(m3) / det_m3;
 			
 			// Restaura matriz a su estado anterior
-			for (size_t j = 0; j < coef_m3.size(); j++) {
+			for (size_t j = 0; j < m3.size(); j++) {
 				m3[j][i] = aux_m3[j];
 			}
 		}
