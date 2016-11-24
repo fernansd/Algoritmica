@@ -1,2 +1,6 @@
 *.o
 *.out
+
+# Todas las carpetas que no cumplan el patron
+!p?/
+vm/

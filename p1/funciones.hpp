@@ -2,15 +2,20 @@
 #define FUNCIONES_HPP
 
 #include <vector>
+#include <cmath>
 
 typedef std::vector<std::vector<double>> Matriz;
 typedef std::vector<double> Fila;
 
 struct Tiempos {
 	int tam;
-	long double real;
-	long double est;
+	double real;
+	double est;
 };
+
+double sumatorio(std::vector<double>& v, double exponente);
+
+Tiempos sumatorioTiempos(std::vector<Tiempos>& v, double exponente);
 
 Matriz generarMatriz(int tam);
 

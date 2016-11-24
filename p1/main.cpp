@@ -17,40 +17,47 @@ int main () {
 	// Inicio del programa
 	//
 	
+	/*
 	// Parámetros automatizados
 	int mat_min = 100, mat_max = 400, mat_paso = 10;
-	int fib_min = 20, fib_max = 40, fib_paso = 1;
+	int fib_min = 20, fib_max = 40, fib_paso = 1;*/
+
+	// Parámetros debugging
+	// Parámetros automatizados
+	int mat_min = 10, mat_max = 200, mat_paso = 10;
+	int fib_min = 10, fib_max = 30, fib_paso = 1;
+
 	
-	/* !!! Descomentar para obtener los parámetros a mano y comentar abajo
+	/*
 	string aux;
 	
 	cout << "Parámetros ejemplar para operación matricial " << endl;
 	
 	cout << "Tamaño mínimo: ";
-	cin.getline(aux);
+	getline(cin, aux);
 	mat_min = std::stoi(aux);
 	
 	cout << "Tamaño máximo: ";
-	cin.getline(aux);
+	getline(cin, aux);
 	mat_max = std::stoi(aux);
 	
 	cout << "Incremento de tamaño: ";
-	cin.getline(aux);
+	getline(cin, aux);
 	mat_paso = std::stoi(aux);
 	
 	
 	cout << "Parámetros ejemplar para fibonacci " << endl;
 	
 	cout << "Tamaño mínimo: ";
-	cin.getline(aux);
+	getline(cin, aux);
 	fib_min = std::stoi(aux);
 	
 	cout << "Tamaño máximo: ";
-	cin.getline(aux);
+	getline(cin, aux);
 	fib_max = std::stoi(aux);
 	
 	cout << "Incremento de tamaño: ";
-	cin.getline(aux);
+	getline(cin, aux);
 	fib_paso = std::stoi(aux);
 	*/
 	
@@ -236,12 +243,9 @@ int main () {
 	// Calculo medias
 	long double media_mat_real = 0;
 	long double media_mat_est = 0;
-	for (size_t i = 0; i < tiempos_mat.size(); i++) {
-		media_mat_real += tiempos_mat[i].real;
-		media_mat_est += tiempos_mat[i].est;
-	}
-	media_mat_real = media_mat_real / tiempos_mat.size();
-	media_mat_est = media_mat_est / tiempos_mat.size();
+	Tiempos mat_sums = sumatorioTiempos(tiempos_mat, 1);
+	media_mat_real = mat_sums.real / tiempos_mat.size();
+	media_mat_est = mat_sums.est / tiempos_mat.size();
 	
 	long double media_fib_real = 0;
 	long double media_fib_est = 0;
@@ -274,7 +278,7 @@ int main () {
 	// Coeficientes de determinación
 	cout << endl;
 	cout << "Coeficiente de determinación matrices: " << var_mat_est/var_mat_real << endl;
-	cout << "Coeficiente de terminación fibonacci: " << var_fib_est/var_fib_real << endl;
+	cout << "Coeficiente de determinación fibonacci: " << var_fib_est/var_fib_real << endl;
 	
 	
 	

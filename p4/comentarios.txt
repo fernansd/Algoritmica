@@ -1,0 +1,47 @@
+Realizar la opción a, si hay suficiente tiempo, hacer también la opción b
+para poder optar al 10.
+
+Para mostrar por pantalla el número de billetes y monedas usados de cada tipo,
+imprimir en una línea los valores de los billetes y en la siguiente la
+cantidad usada de cada tipo.
+
+Usar espacio de nombres alg
+Usar cli.hpp de la p3 y usar también las funciones para línea de comandos de
+la prática anterior. Si se puede implementar una librería de interfaz texto:
+cli_gui.hpp Para esta libería usar para una función menú, una implementación con
+clase.
+
+Clases
+------
+**Implementar observadores y modificadores
+
+Crear una clase Moneda que compruebe que solo se le asignen valores válidos,
+además tendrá una variable que guarde la cantidad de moneda de ese tipo.
+
+Moneda debe sobrecargar los operadores: <, >, <=, >=, ==
+
+Los operadores / * + - actúan solamente sobre la cantidad de moneda. Cuando
+las monedas que operen, tengan distintos valores monetarios, se realiza la
+operación convirtiendo a la moneda de menor valor. Los operadores actúan como
+tipo entero, nunca devuelven decimales.
+Es opcional sobrecargar el operador de división para que una moneda almacene
+todos los elementos que pueda al dividir una cantidad de centimos.
+
+
+Crear clase SistemaMonetario la cual permita almacenar un vector de elementos de
+la clase Moneda. Crear una función friend que permita almacenar una cantidad
+de céntimos en el SistemaMonetario, esta función es la que __implementará__
+__el algoritmo voraz para obtener la cantidad de monedas y billetes__.
+El constructor de la clase debe permitir inicialización por llaves, tanto para
+solo los valores de las monedas, como para valores y cantidades disponibles.
+Implemetar un método que vacíe el sistema, así como uno que solo ponga todas las
+cantidades a 0.
+
+El vector que SistemaMonetario almacena debe estar ordenado en orden creciente.
+
+El modificador y observador de SistemaMonetario para una moneda de un valor,
+debe devolver un bool, que valdrá false en caso de que no exista un valor
+de moneda determinado dentro del Sistema.
+
+Incluir un observador que permita obtener si existe una Moneda determinada
+dentro del SistemaMonetario.
