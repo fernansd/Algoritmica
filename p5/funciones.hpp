@@ -15,6 +15,8 @@ struct Cantidad {
 	Cantidad() { }
 	Cantidad(int val)
 		: moneda(val) { }
+    Cantidad(int val, int cant)
+        : moneda(val), cantidad(cant) { }
 };
 
 typedef std::vector<Cantidad> Cambio;

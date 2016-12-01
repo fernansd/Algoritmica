@@ -59,6 +59,14 @@ public:
 			return false;
 	}
 
+	friend bool operator<(int n, const Moneda& m)
+	{
+		if (n < m.getValor())
+			return true;
+		else
+			return false;
+	}
+
 	bool operator>(const Moneda& m) const
 	{
 		if (this->getValor() > m.getValor())

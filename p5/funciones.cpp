@@ -4,39 +4,73 @@
 #include <iomanip>
 #include <string>
 #include <fstream>
+#include <limits>
 
-Cambio obtenerCambio(long dinero, SistemaMonetario& s) {
-	std::vector<Cantidad> v;
+Cambio obtenerCambio(long dinero, SistemaMonetario& v) {
+	Cambio cambio;
 
-	// Recorremos todos las monedas almacenadas en el sistema
-	// de mayor a menor valor
-	for (auto it = s.rbegin(); it != s.rend(); it++) {
-		Cantidad c;
-		c.moneda = it->getValor();
+	std::vector<std::vector<long>> c(v.size(), std::vector<long>(dinero+1));
 
-		// Cogemos de cada moneda tanto como podamos
-		while (c.moneda <= dinero) {
-			c.cantidad++;
-			dinero -= c.moneda.getValor();
-		}
-
-		if (c.cantidad > 0) {
-			v.push_back(c);
-		}
-
-		// Si nos quedamos sin dinero dejamos de coger monedas
-		if (dinero <= 0)
-			break;
-
+	for (size_t i = 0; i < v.size(); i++) {
+		c[i][0] = 0;
 	}
 
-	// En el caso de que el sistema monetario no permita dar un cambio
-	// completo, se devuelve un cambio vacío
-	if (dinero != 0) {
-		return Cambio();
+	// La variable i es un pivote para recorrer las monedas disponibles
+	for (size_t i = 0; i < c.size(); i++) {
+		// La variable j es un pivote que contiene el dinero que falta por cambiar
+		for (size_t j = 0; j < c[i].size(); j++)  {
+			
+			if (i == 0 && j < v[i]) {
+				c[i][j] = std::numeric_limits<long>::infinity();
+
+			} else {
+				if (i == 0) {
+					c[i][j] = 1 + c[i][j-v[0].getValor()];
+				
+				} else {
+					// La moneda seleccionada es ḿas grande que el dinero actual
+					if (j < v[i]) {
+						c[i][j] = c[i-1][j];
+					
+					} else {
+						c[i][j] = std::min(c[i-1][j], 1 + c[i][j-v[i].getValor()]);
+					}
+				}
+			}
+		}
 	}
 
-	return v;
+	// Ahora obtenemos la cantidad de cada moneda necesaria desde la tabla
+	int i = v.size()-1;
+	int j = c[0].size()-1;
+	
+	// Cuando j = 0, el valor de las monedas cogidas iguala el del dinero objetivo
+	while (j > 0) {
+		if (i == 0) {
+			if (cambio.back().moneda != v[i]) {
+				cambio.push_back(Cantidad(v[i].getValor(), 1));
+
+			} else {
+				cambio.back().cantidad++;
+			}
+			// Resta el valor de la moneda cogida al dinero que falta por cambiar
+			j = j - v[i].getValor();
+
+		} else if (c[i][j] == c[i-1][j]) {
+			i--;
+
+		} else {
+			if (cambio.size() == 0 || cambio.back().moneda != v[i]) {
+				cambio.push_back(Cantidad(v[i].getValor(), 1));
+
+			} else {
+				cambio.back().cantidad++;
+			}
+			j = j - v[i].getValor();
+		}
+	}
+
+	return cambio;
 }
 
 //
@@ -168,14 +202,14 @@ void imprimirCambio(Cambio& c, long dinero)
 	//
 	using std::ios;
 	// Valores de moneda
-	std::cout << "Valores:  " << std::setw(ancho) << c[0].moneda;
+	std::cout << "Valores:   " << std::setw(ancho) << c[0].moneda;
 	for (size_t i = 1; i < c.size(); i++) {
 		std::cout << sep << std::setw(ancho) << c[i].moneda;
 	}
 	std::cout << std::endl;
 
 	// Cantidad de moneda
-	std::cout << "Cantidad: " << std::setw(ancho) << c[0].cantidad;
+	std::cout << "Cantidad:  " << std::setw(ancho) << c[0].cantidad;
 	for (size_t i = 1; i < c.size(); i++) {
 		std::cout << sep << std::setw(ancho) << c[i].cantidad;
 	}

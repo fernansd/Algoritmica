@@ -57,6 +57,18 @@ public:
 
 	int getMenorBillete() { return menor_billete_; }
 
+
+	
+	Moneda& operator[](size_t i)
+	{
+		auto it = this->begin();
+		while (i--) {
+			it++;
+		}
+
+		return const_cast<Moneda&> (*it);
+	}
+
 	friend std::ostream& operator<<(std::ostream& stream, const SistemaMonetario& s)
 	{
 		if (s.menor_billete_ <= 0) {
