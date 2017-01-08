@@ -39,6 +39,7 @@ int main (int argc, char* argv[]) {
 	cout << sistema << endl;
 
 	int dinero;
+
 	if (params.sistema == false && argc == 2) {
 		int num = atoi(argv[1]);
 		if (num > 0) {

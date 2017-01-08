@@ -7,8 +7,9 @@
 #include <limits>
 
 
+Solucion obtenerCambio(long dinero, SistemaMonetario& v)
+{
 
-Solucion obtenerCambio(long dinero, SistemaMonetario& v) {
 	Cambio cambio;
 
 	std::vector<std::vector<long>> c(v.size(), std::vector<long>(dinero+1));

@@ -33,7 +33,6 @@ int main (int argc, char* argv[]) {
 	}
 
 
-
 	if (sistema.getMenorBillete() == 0) {
 		cout << "El actual sistema monetario es:" << endl;
 		cout << sistema;
@@ -43,10 +42,13 @@ int main (int argc, char* argv[]) {
 	cout << sistema << endl;
 
 	long dinero;
+
+	// Si se ha pasado la cantidad de dinero a cambiar por consola
 	if (params.sistema == false && argc == 2) {
 		int num = atoi(argv[1]);
 		if (num > 0) {
 			dinero = num;
+
 		} else {
 			cerr << "Error. Valor dinero incorrecto" << endl;
 			mostrarUso(argv[0]);
@@ -57,6 +59,7 @@ int main (int argc, char* argv[]) {
 		cin >> dinero;
 	}
 	
+
 	Solucion solucion = obtenerCambio(dinero, sistema);
 	imprimirCambio(solucion);
 

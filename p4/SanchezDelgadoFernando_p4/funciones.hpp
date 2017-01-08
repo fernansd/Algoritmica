@@ -21,7 +21,6 @@ typedef std::vector<Cantidad> Cambio;
 
 Cambio obtenerCambio(int cantidad, SistemaMonetario& s);
 
-
 //
 // FUNCIONES AUXILIARES
 

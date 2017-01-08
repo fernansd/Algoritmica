@@ -20,5 +20,7 @@ long combinatorioRecursivo(int n, int k);
 long combinatorioTabla(int n, int k, Tabla& t);
 long combinatorioIterativo(int n, int k);
 
+// Opción 2: Hanoi
+int hanoi(int n);
 
 #endif

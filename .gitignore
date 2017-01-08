@@ -1,4 +1,10 @@
 *.o
 *.out
 
+<<<<<<< HEAD
 resto/
+=======
+# Todas las carpetas que no cumplan el patron
+!p?/
+vm/
+>>>>>>> d75ec1345bd40be5e4bdaae35fd500f76cec49ea

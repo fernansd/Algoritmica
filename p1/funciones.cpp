@@ -8,6 +8,27 @@ using std::cout;
 using std::endl;
 
 
+double sumatorio(std::vector<double>& v, double exponente) {
+	double sum = 0;
+	for (size_t i = 0; i < v.size(); i++) {
+		sum += pow(v[i], exponente);
+	}
+	return sum;
+}
+
+Tiempos sumatorioTiempos(std::vector<Tiempos>& v, double exponente) {
+	Tiempos t;
+	t.real = 0;
+	t.est = 0;
+
+	for (size_t i = 0; i < v.size(); i++) {
+		t.real += pow(v[i].real, exponente);
+		t.est += pow(v[i].est, exponente);
+	}
+	return t;
+}
+
+
 /********
 	Funciones auxiliares de matrices
 ********/

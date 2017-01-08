@@ -5,7 +5,8 @@
 #include <string>
 #include <fstream>
 
-Cambio obtenerCambio(int dinero, SistemaMonetario& s) {
+Cambio obtenerCambio(int dinero, SistemaMonetario& s)
+{
 	std::vector<Cantidad> v;
 
 	// Recorremos todos las monedas almacenadas en el sistema
@@ -92,19 +93,30 @@ void leerSistemaFichero(SistemaMonetario& s, const std::string& nombre)
 
 bool obtenerSiNo(const std::string mensaje)
 {
-  std::string leido;
-  std::cout << mensaje << "(s/n): ";
-  std::cin >> leido;
+	// Limpia cin de entradas anteriores
+	if(std::cin.fail()) {
+		std::cin.clear();
+		std::cin.ignore();
+    }
+	std::string leido;
+	std::cout << mensaje << "(s/n): ";
+	std::cin >> leido;
+	// Limpia cin si hay algún fallo en la lectura
+	if(std::cin.fail()) {
+		std::cin.clear();
+		std::cin.ignore();
+    }
 
-  while(leido[0] != 's' && leido[0] != 'n') {
-    std::cout << "Error. Introduzca la letra s para si y la n para no" << std::endl;
-    std::cin >> leido;
-  }
+	while(leido[0] != 's' && leido[0] != 'n') {
+		std::cout << "Error. Introduzca la letra s para si y la n para no" << std::endl;
+		std::cout << "> ";
+		std::cin >> leido;
+	}
 
-  if (leido[0] == 's')
-    return true;
-  else
-    return false;
+	if (leido[0] == 's')
+		return true;
+	else
+		return false;
 }
 
 bool fijarBillete(SistemaMonetario& s)

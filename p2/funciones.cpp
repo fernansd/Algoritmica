@@ -65,4 +65,3 @@ long combinatorioIterativo(int n, int k) {
 
 	return factorial_n / factorial_k / factorial_nk;
 }
-

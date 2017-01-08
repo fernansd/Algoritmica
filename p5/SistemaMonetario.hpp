@@ -67,7 +67,6 @@ public:
 		this->clear();
 		this->menor_billete_ = 0;
 	}
-
 	
 	Moneda& operator[](size_t i)
 	{
